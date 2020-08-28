@@ -15,11 +15,12 @@ class Ship:
 
 
 class Grid:
-    def __init__(self, ships, matrix_rep):
-        self.ships = ships
-        self.mat = matrix_rep
+    def __init__(self, ships, hits, matrix_rep):
+        self.ships = ships # possible ship placements
+        self.mat = matrix_rep # heatmap of the grid
+        self.hits = hits # points on grid w/ hits. Only to pass to hunt grid
 
-    def shipsOnRem(self, ptR, ptC):
+    def missOn(self, ptR, ptC):
         ships = self.ships
         for i in range(len(ships)-1, -1, -1):
             ship = ships[i]
@@ -28,13 +29,10 @@ class Grid:
                 self.mat -= ship.mat
         return
 
-    def shipsOffRem(self, ptR, ptC):
-        ships = self.ships
-        for i in range(len(ships)-1, -1, -1):
-            ship = ships[i]
-            if ship.search(ptR, ptC) == false:
-                self.ships.pop((i))
-                self.mat -= ship.mat
+    def hitOn(self, ptR, ptC):
+        point = (ptR, ptC)
+        self.hits.append(point)
+        self.mat[point] = 0
         return
 
     def huntGridOn(self, ptR, ptC):
@@ -44,11 +42,13 @@ class Grid:
         for i in range(len(ships)-1, -1, -1):
             ship = ships[i]
             if ship.search(ptR, ptC) == true:
-                hShips = self.ships.pop((i))
+                hShips = self.ships[i]
                 shipMat = ship.mat
-                self.mat -= shipMat
                 hMat += ship.mat
-        hunt = Grid(hShips, hMat)
+        hits = self.hits
+        for hit in hits:
+            hMat[hit] = 0
+        hunt = Grid(hShips, [], hMat) # Doesn't need to know hits
         return hunt
 
     def getAtk(self):
