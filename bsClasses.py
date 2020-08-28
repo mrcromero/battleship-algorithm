@@ -21,6 +21,7 @@ class Grid:
         self.ships = ships # possible ship placements
         self.mat = matrix_rep # heatmap of the grid
         self.hits = hits # points on grid w/ hits. Only to pass to hunt grid
+        self.rem = remShips # remaining ship sizes
 
     def missOn(self, ptR, ptC):
     # Course of action when position ptR, ptC misses
@@ -52,15 +53,15 @@ class Grid:
         for i in range(len(ships)-1, -1, -1):
             ship = ships[i]
             if ship.search(ptR, ptC) == true:
-                hShips = self.ships[i]
+                hShips.append(self.ships[i])
                 shipMat = ship.mat
                 hMat += ship.mat
         hits = self.hits
         # Pass through all hits and set them as 0
         for hit in hits:
             hMat[hit] = 0
-        hunt = Grid(hShips, [], hMat) # Doesn't need to know hits
-        return hunt
+        hunt = Grid(hShips, [], hMat) # Doesn't need to know hits or sizes
+        return
 
     def getAtk(self):
     # Find the most likely attack point
