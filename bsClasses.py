@@ -63,6 +63,24 @@ class Grid:
         hunt = Grid(hShips, [], hMat) # Doesn't need to know hits or sizes
         return
 
+    def sunk(self, sz):
+    # Remove any other possible placements of size sz (size 3 ships only get
+    # removed once)
+        ships = self.ships
+        rmShips = set() # use a set because doesn't allow for copies
+        oldLen = len(rmShips)
+        for i in range(len(ships)-1, -1, -1):
+            ship = ship[i]
+            # Add ships of length sz to rmShips. Only remove if unique ship.
+            if ship.length == sz:
+                rmShips.add(ship)
+                newLen = len(rmShips)
+                if oldLen != newLen:
+                    oldLen = newLen
+                    self.ships.pop((i))
+                    self.mat -= ship.mat
+        return
+
     def getAtk(self):
     # Find the most likely attack point
         max = ny.max(self.mat)
