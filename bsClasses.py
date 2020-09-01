@@ -48,7 +48,7 @@ class Grid:
     # On a first-time-hit, switch to hunt mode
         ships = self.ship
         hShips = []
-        hMat = ny.zeros((9, 9))
+        hMat = ny.zeros((10, 10))
         # All ships that touch the hit get added to the new hunt grid
         for i in range(len(ships)-1, -1, -1):
             ship = ships[i]
