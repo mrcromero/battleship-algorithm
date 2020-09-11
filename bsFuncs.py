@@ -85,15 +85,19 @@ def makeAllShipGrid():
     return bsc.Grid(shipList, [], matRep)
 
 def search(allShips):
+# Search algorithm and querying the user
     hit = False
+    # get an attack
     atkR,atkC = allShips.getAtk()
     print("I attack at row " + str(atkR+1) + " and column " + str(atkC+1))
     answer = input("Did my attack hit? (Y/n) ")
     while (answer != "Y" and answer != "n"):
         print("Sorry, I didn't get that")
         answer = input("Did my attack hit? (Y/n) ")
+    # Perform hitOn or missOn as appropriate
     if (answer == "Y"):
         print("Nice")
+        # turn hit to true on a hit
         hit = True
         allShips.hitOn(atkR,atkC)
     elif (answer == "n"):
@@ -102,6 +106,7 @@ def search(allShips):
     return allShips,hit,atkR,atkC
 
 def hunt(huntShips, allShips):
+# Hunt algorithm and querying the user
     sunk = False
     atkR,atkC = huntShips.getAtk()
     print("I attack at row " + str(atkR+1) + " and column " + str(atkC+1))
@@ -111,17 +116,23 @@ def hunt(huntShips, allShips):
         answer = input("Did my attack hit? (Y/n) ")
     if (answer == "Y"):
         print("Nice")
+        # On hits, perform hit on for both Grids so when hunting is done, the
+        # hits are preserved on the alShips grid.
         allShips.hitOn(atkR,atkC)
         huntShips.hitOn(atkR,atkC)
+        # Ask if ship hit. A sink ends the loop for the hunting algorithm
         answerS = input("Did I sink a ship? (Y/n) ")
         while (answerS == "Y" and answerS == "n"):
             print("Sorry, I didn't get that")
             answerS = input("Did I sink a ship? (Y/n) ")
         if (answerS == "Y"):
+            # Assumes that the user inputs the correct size.
             sinkSz = int(input("What size? "))
             allShips.sunk(sinkSz)
             sunk = True
     elif (answer == "n"):
+        # On miss, only perform missOn for both Grids so when hunting is done,
+        # the misses are preserved.
         print("Aww man")
         allShips.missOn(atkR, atkC)
         huntShips.missOn(atkR, atkC)
