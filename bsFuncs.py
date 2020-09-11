@@ -83,3 +83,46 @@ def makeAllShipGrid():
                 matRep += shipMat
 
     return bsc.Grid(shipList, [], matRep)
+
+def search(allShips):
+    hit = False
+    atkR,atkC = allShips.getAtk()
+    print("I attack at row " + str(atkR+1) + " and column " + str(atkC+1))
+    answer = input("Did my attack hit? (Y/n) ")
+    while (answer != "Y" and answer != "n"):
+        print("Sorry, I didn't get that")
+        answer = input("Did my attack hit? (Y/n) ")
+    if (answer == "Y"):
+        print("Nice")
+        hit = True
+        allShips.hitOn(atkR,atkC)
+    elif (answer == "n"):
+        print("Aww man")
+        allShips.missOn(atkR, atkC)
+    return allShips,hit,atkR,atkC
+
+def hunt(huntShips, allShips):
+    sunk = False
+    atkR,atkC = huntShips.getAtk()
+    print("I attack at row " + str(atkR+1) + " and column " + str(atkC+1))
+    answer = input("Did my attack hit? (Y/n) ")
+    while (answer != "Y" and answer != "n"):
+        print("Sorry, I didn't get that")
+        answer = input("Did my attack hit? (Y/n) ")
+    if (answer == "Y"):
+        print("Nice")
+        allShips.hitOn(atkR,atkC)
+        huntShips.hitOn(atkR,atkC)
+        answerS = input("Did I sink a ship? (Y/n) ")
+        while (answerS == "Y" and answerS == "n"):
+            print("Sorry, I didn't get that")
+            answerS = input("Did I sink a ship? (Y/n) ")
+        if (answerS == "Y"):
+            sinkSz = int(input("What size? "))
+            allShips.sunk(sinkSz)
+            sunk = True
+    elif (answer == "n"):
+        print("Aww man")
+        allShips.missOn(atkR, atkC)
+        huntShips.missOn(atkR, atkC)
+    return huntShips,allShips,sunk

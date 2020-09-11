@@ -29,7 +29,7 @@ class Grid:
         for i in range(len(ships)-1, -1, -1):
             ship = ships[i]
             # Any points on the miss get removed (no longer valid placements)
-            if ship.search(ptR, ptC) == true:
+            if ship.search(ptR, ptC) == True:
                 self.ships.pop((i))
                 self.mat -= ship.mat
         return
@@ -45,13 +45,13 @@ class Grid:
 
     def huntGridOn(self, ptR, ptC):
     # On a first-time-hit, switch to hunt mode
-        ships = self.ship
+        ships = self.ships
         hShips = []
         hMat = ny.zeros((10, 10))
         # All ships that touch the hit get added to the new hunt grid
         for i in range(len(ships)-1, -1, -1):
             ship = ships[i]
-            if ship.search(ptR, ptC) == true:
+            if ship.search(ptR, ptC) == True:
                 hShips.append(self.ships[i])
                 shipMat = ship.mat
                 hMat += ship.mat
@@ -60,7 +60,7 @@ class Grid:
         for hit in hits:
             hMat[hit] = 0
         hunt = Grid(hShips, [], hMat) # Doesn't need to know hits or sizes
-        return
+        return hunt
 
     def sunk(self, sz):
     # Remove any other possible placements of size sz (size 3 ships only get
@@ -69,7 +69,7 @@ class Grid:
         rmShips = set() # use a set because doesn't allow for copies
         oldLen = len(rmShips)
         for i in range(len(ships)-1, -1, -1):
-            ship = ship[i]
+            ship = ships[i]
             # Add ships of length sz to rmShips. Only remove if unique ship.
             if ship.length == sz:
                 rmShips.add(ship)
