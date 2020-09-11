@@ -53,7 +53,6 @@ class Grid:
             ship = ships[i]
             if ship.search(ptR, ptC) == True:
                 hShips.append(self.ships[i])
-                shipMat = ship.mat
                 hMat += ship.mat
         hits = self.hits
         # Pass through all hits and set them as 0
