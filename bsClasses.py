@@ -21,7 +21,6 @@ class Grid:
         self.ships = ships # possible ship placements
         self.mat = matrix_rep # heatmap of the grid
         self.hits = hits # points on grid w/ hits. Only to pass to hunt grid
-        self.rem = remShips # remaining ship sizes
 
     def missOn(self, ptR, ptC):
     # Course of action when position ptR, ptC misses
